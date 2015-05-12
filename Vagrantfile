@@ -39,6 +39,24 @@ Vagrant.configure(2) do |config|
   		git1.vm.network "forwarded_port", guest: 80, host: 8080
 	end
 
+	config.vm.define "puppetmaster" do |puppetmaster|
+  		puppetmaster.vm.box = "hashicorp/precise32"
+		puppetmaster.vm.host_name = "puppetmaster"
+  		config.vm.provider "virtualbox" do |vb|
+#     		vb.gui = true
+     		vb.memory = "512"
+   		end
+   		puppetmaster.vm.provision "shell", inline: <<-SHELL
+     		sudo apt-get update
+     		sudo apt-get install -y git wget
+			wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+			sudo dpkg -i puppetlabs-release-precise.deb
+			sudo apt-get update
+			sudo apt-get install -y puppetmaster-passenger
+			sudo apt-get install -y puppetmaster 
+   		SHELL
+  		puppetmaster.vm.network "forwarded_port", guest: 8140, host: 8150
+	end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
