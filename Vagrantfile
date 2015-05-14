@@ -58,6 +58,20 @@ Vagrant.configure(2) do |config|
   		puppetmaster.vm.network "forwarded_port", guest: 8140, host: 8150
 	end
 
+	config.vm.define "client1" do |client1|
+  		client1.vm.box = "hashicorp/precise32"
+		client1.vm.host_name = "client1"
+   		client1.vm.provision "shell", inline: <<-SHELL
+     		sudo apt-get update
+     		sudo apt-get install -y git wget
+			wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+			sudo dpkg -i puppetlabs-release-precise.deb
+			sudo apt-get update
+			sudo apt-get install -y puppet
+   		SHELL
+	end
+
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
