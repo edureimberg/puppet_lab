@@ -14,7 +14,7 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
 #  config.vm.box = "base"
   config.vm.box = "ubuntu/trusty64"
-  config.vm.network "public_network"
+#  config.vm.network "public_network"
 #  config.vm.provision :shell, path: "bootstrap.sh"
 
 	config.vm.define "vm1" do |vm1|
@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
 
 	config.vm.define "puppetmaster" do |puppetmaster|
   		puppetmaster.vm.box = "ubuntu/trusty64"
-		puppetmaster.vm.host_name = "puppetmaster"
+		puppetmaster.vm.host_name = "puppet"
   		puppetmaster.vm.network "private_network", ip: "10.255.255.1"
   		config.vm.provider "virtualbox" do |vb|
 #     		vb.gui = true
@@ -56,7 +56,7 @@ Vagrant.configure(2) do |config|
 			sudo apt-get install -y puppetmaster-passenger
 			sudo apt-get install -y puppetmaster 
    		SHELL
-  		puppetmaster.vm.network "forwarded_port", guest: 8140, host: 8150
+  		puppetmaster.vm.network "forwarded_port", guest: 8140, host: 8140
 	end
 
 	config.vm.define "client1" do |client1|
@@ -71,7 +71,6 @@ Vagrant.configure(2) do |config|
 			sudo apt-get update
 			sudo apt-get install -y puppet
    		SHELL
-  		client1.vm.network "private_network", ip: "10.255.255.2"
 	end
 
 
