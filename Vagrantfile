@@ -13,17 +13,17 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
 #  config.vm.box = "base"
-  config.vm.box = "hashicorp/precise32"
+  config.vm.box = "ubuntu/trusty64"
   config.vm.network "public_network"
 #  config.vm.provision :shell, path: "bootstrap.sh"
 
 	config.vm.define "vm1" do |vm1|
-  		vm1.vm.box = "hashicorp/precise32"
+  		vm1.vm.box = "ubuntu/trusty64"
 		vm1.vm.host_name = "vm1"
 	end
 
 	config.vm.define "git1" do |git1|
-  		git1.vm.box = "hashicorp/precise32"
+  		git1.vm.box = "ubuntu/trusty64"
 		git1.vm.host_name = "git1"
   		config.vm.provider "virtualbox" do |vb|
 #     		vb.gui = true
@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
 	end
 
 	config.vm.define "puppetmaster" do |puppetmaster|
-  		puppetmaster.vm.box = "hashicorp/precise32"
+  		puppetmaster.vm.box = "ubuntu/trusty64"
 		puppetmaster.vm.host_name = "puppetmaster"
   		config.vm.provider "virtualbox" do |vb|
 #     		vb.gui = true
@@ -49,8 +49,8 @@ Vagrant.configure(2) do |config|
    		puppetmaster.vm.provision "shell", inline: <<-SHELL
      		sudo apt-get update
      		sudo apt-get install -y git wget
-			wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
-			sudo dpkg -i puppetlabs-release-precise.deb
+			wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+			sudo dpkg -i puppetlabs-release-trusty.deb
 			sudo apt-get update
 			sudo apt-get install -y puppetmaster-passenger
 			sudo apt-get install -y puppetmaster 
@@ -59,13 +59,13 @@ Vagrant.configure(2) do |config|
 	end
 
 	config.vm.define "client1" do |client1|
-  		client1.vm.box = "hashicorp/precise32"
+  		client1.vm.box = "ubuntu/trusty64"
 		client1.vm.host_name = "client1"
    		client1.vm.provision "shell", inline: <<-SHELL
      		sudo apt-get update
      		sudo apt-get install -y git wget
-			wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
-			sudo dpkg -i puppetlabs-release-precise.deb
+			wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+			sudo dpkg -i puppetlabs-release-trusty.deb
 			sudo apt-get update
 			sudo apt-get install -y puppet
    		SHELL
