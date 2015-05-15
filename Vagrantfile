@@ -42,6 +42,7 @@ Vagrant.configure(2) do |config|
 	config.vm.define "puppetmaster" do |puppetmaster|
   		puppetmaster.vm.box = "ubuntu/trusty64"
 		puppetmaster.vm.host_name = "puppetmaster"
+  		puppetmaster.vm.network "private_network", ip: "10.255.255.1"
   		config.vm.provider "virtualbox" do |vb|
 #     		vb.gui = true
      		vb.memory = "512"
@@ -61,6 +62,7 @@ Vagrant.configure(2) do |config|
 	config.vm.define "client1" do |client1|
   		client1.vm.box = "ubuntu/trusty64"
 		client1.vm.host_name = "client1"
+  		client1.vm.network "private_network", ip: "10.255.255.2"
    		client1.vm.provision "shell", inline: <<-SHELL
      		sudo apt-get update
      		sudo apt-get install -y git wget
@@ -69,6 +71,7 @@ Vagrant.configure(2) do |config|
 			sudo apt-get update
 			sudo apt-get install -y puppet
    		SHELL
+  		client1.vm.network "private_network", ip: "10.255.255.2"
 	end
 
 
