@@ -45,7 +45,7 @@ Vagrant.configure(2) do |config|
   		puppetmaster.vm.network "private_network", ip: "10.255.255.1"
   		config.vm.provider "virtualbox" do |vb|
 #     		vb.gui = true
-     		vb.memory = "512"
+     		vb.memory = "1024"
    		end
    		puppetmaster.vm.provision "shell", inline: <<-SHELL
      		sudo apt-get update
@@ -57,6 +57,7 @@ Vagrant.configure(2) do |config|
 			sudo apt-get install -y puppetmaster 
    		SHELL
   		puppetmaster.vm.network "forwarded_port", guest: 8140, host: 8140
+  		puppetmaster.vm.network "forwarded_port", guest: 5000, host: 5000
 	end
 
 	config.vm.define "client1" do |client1|
@@ -73,6 +74,18 @@ Vagrant.configure(2) do |config|
    		SHELL
 	end
 
+	config.vm.define "chef" do |chef|
+  		chef.vm.box = "ubuntu/trusty64"
+		chef.vm.host_name = "chef"
+  		chef.vm.network "private_network", ip: "10.255.255.2"
+   		chef.vm.provision "shell", inline: <<-SHELL
+     		sudo apt-get update
+     		sudo apt-get install -y git wget
+			wget -c https://web-dl.packagecloud.io/chef/stable/packages/ubuntu/trusty/chef-server-core_12.0.8-1_amd64.deb
+			sudo dpkg -i chef-server-core_12.0.8-1_amd64.deb
+			sudo chef-server-ctl reconfigure
+   		SHELL
+	end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
